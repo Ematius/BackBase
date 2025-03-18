@@ -3,6 +3,8 @@ import { resolve } from 'path';
 import morgan from 'morgan';
 import cors from 'cors';
 import createDebug from 'debug';
+import { notFoundController, notMethodController } from './controllers/controller.base';
+import { errorManager } from './controllers/controller.error.js';
 
 
 const debug = createDebug('app:server');
@@ -30,5 +32,15 @@ export const createApp = () => {
     app.use(express.urlencoded({ extended: true }));
 
     return app;
+
+
+    
+   app.get('*', notFoundController);
+   app.use('*', notMethodController);
+   app.use(errorManager);
+
+
+
+
 
 }
